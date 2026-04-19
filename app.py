@@ -123,7 +123,7 @@ graph = StateGraph(AgentState)
 graph.add_node("predict", predict_node)
 graph.add_node("reason", reasoning_node)
 graph.add_node("retrieve", retrieval_node)
-graph.add_node("report", report_node)
+graph.add_node("generate_report", report_node)
 
 graph.set_entry_point("predict")
 
