@@ -149,139 +149,154 @@ The application loads:
 
 ---
 
-## Milestone 2: Agentic AI Retention Assistant (End-Sem)
+## Milestone 2: Agentic AI Retention Assistant (End-Sem) 
 
 ### Objective
 
-Extend the system into an agentic AI strategist that:
+Extend the system beyond prediction into an **intelligent AI-powered decision-making system** that not only predicts churn but also:
 
-* Reasons about churn risk
-* Retrieves retention best practices using RAG
-* Generates structured intervention plans
-* Operates as a multi-state workflow using LangGraph
+- Explains *why* a customer is likely to churn  
+- Retrieves domain knowledge using RAG  
+- Generates actionable retention strategies  
+- Operates through a structured multi-step workflow using LangGraph  
 
 ---
 
-### Planned Agent Workflow
+### System Architecture (M2)
 
 ```
-Input Customer Profile
-        ↓
-Risk Assessment Node
-        ↓
-Knowledge Retrieval (RAG)
-        ↓
-Strategy Planning Node
-        ↓
-Structured Retention Report Generation
-```
 
----
+User Input (Customer Data)
+↓
+ML Prediction (Logistic Regression)
+↓
+LLM Reasoning (Groq - LLaMA 3)
+↓
+Knowledge Retrieval (RAG - ChromaDB)
+↓
+Strategy Generation
+↓
+Structured Report Output (Streamlit UI)
 
-### Key Deliverables (M2)
-
-* Publicly deployed application
-* Agent workflow documentation (States & Nodes)
-* Structured retention report generation
-* Complete GitHub repository
-* 5-minute demo video
-
----
-
-## Retention Strategy Logic (Current Rule-Based Prototype)
-
-For Milestone 1, retention suggestions are rule-driven:
-
-* High churn probability (>70%)
-
-  * Offer discounted long-term contract
-  * Provide loyalty benefits
-  * Assign customer success representative
-* Medium risk (40–70%)
-
-  * Personalized promotional offers
-  * Engagement follow-ups
-* Low risk (<40%)
-
-  * Standard monitoring
-
-This will later evolve into an intelligent agent-based reasoning system.
-
----
-
-## Project Structure
-
-```
-TELECOM_CUSTOMER_CHURN_PREDICTION/
-│
-├── app.py
-├── churn.ipynb
-├── logistic_model.pkl
-├── scaler.pkl
-├── feature_columns.pkl
-├── telco_dataset.csv
-├── requirements.txt
-├── README.md
-├── .gitignore
 ```
 
 ---
 
-## Installation & Setup
+### Agent Workflow (LangGraph)
 
-### 1. Clone Repository
-
-```
-git clone https://github.com/somraj112/TELECOM_CUSTOMER_CHURN_PREDICTION.git 
-cd TELECOM_CUSTOMER_CHURN_PREDICTION
-```
-
-### 2. Create Virtual Environment
+The system is implemented as a **state-based workflow graph** using LangGraph:
 
 ```
-python -m venv venv
-source venv/bin/activate   # Mac/Linux
-```
 
-### 3. Install Dependencies
+predict → reason → retrieve → generate_report → END
 
 ```
-pip install -r requirements.txt
+
+#### Nodes Description:
+
+- **predict_node**
+  - Uses trained ML model to calculate churn probability & risk level  
+
+- **reasoning_node**
+  - Uses LLM (Groq - LLaMA 3) to explain churn drivers  
+
+- **retrieval_node**
+  - Uses RAG (ChromaDB + Embeddings) to fetch relevant retention strategies  
+
+- **report_node**
+  - Combines all outputs into a structured business-ready report  
+
+---
+
+### Key Features Implemented (M2)
+
+- AI-powered churn reasoning (LLM-based)  
+- Retrieval-Augmented Generation (RAG) for best practices  
+- Multi-step agent workflow using LangGraph  
+- Structured report generation (Risk + Reasoning + Actions)  
+- Real-time inference through Streamlit UI  
+- Deployed live application (Streamlit Cloud)  
+
+---
+
+### Output Structure
+
+The system generates a structured response:
+
+#### 1. Risk Summary
+- Churn Probability (%)  
+- Risk Level (Low / Medium / High)  
+
+#### 2. AI Reasoning
+- Why the customer may churn  
+- Key behavioral risk drivers  
+
+#### 3. Recommended Actions
+- Data-driven retention strategies retrieved via RAG  
+
+---
+
+### Example Output
+
 ```
 
-### 4. Run Application
+Churn Probability: 75.74%
+Risk Level: HIGH
 
-```
-streamlit run app.py
+AI Reasoning:
+
+* New customer with low tenure
+* Month-to-month contract indicates low commitment
+* High monthly charges
+
+Recommended Actions:
+
+* Offer long-term discounted plans
+* Provide onboarding support
+* Introduce loyalty rewards
+
 ```
 
 ---
 
-## Deployment
+### Technologies Used (M2 Implementation)
 
-The application will be publicly hosted using:
-
-* Streamlit Cloud (Planned)
-* Hugging Face Spaces (Optional)
-* Render (Optional)
-
----
-
-## Evaluation Criteria
-
-| Phase       | Weight | Criteria                                                                        |
-| :---------- | :----- | :------------------------------------------------------------------------------ |
-| **Mid-Sem** | 25%    | ML technique application, Feature Engineering, UI Usability, Evaluation Metrics |
-| **End-Sem** | 30%    | Reasoning quality, RAG implementation, Output clarity, Deployment success       |
+| Component            | Technology Used                    |
+|---------------------|----------------------------------|
+| LLM                 | Groq (LLaMA 3 70B)               |
+| Agent Framework     | LangGraph                        |
+| RAG Pipeline        | ChromaDB + HuggingFace Embeddings|
+| Orchestration       | Python                           |
+| Deployment          | Streamlit Cloud                  |
 
 ---
 
-## Future Improvements
+### Improvements Over Milestone 1
 
-* Hyperparameter tuning
-* Feature importance visualization dashboard
-* SHAP explainability integration
-* Real-time business dashboard
-* Agentic multi-step reasoning workflow (LangGraph)
+| Feature              | Milestone 1 | Milestone 2 |
+|---------------------|------------|------------|
+| Churn Prediction     | ✅          | ✅          |
+| Explainability       | ❌          | ✅ (LLM)    |
+| Strategy Suggestions | Rule-based | AI + RAG    |
+| System Intelligence  | Static     | Dynamic     |
+| Workflow Automation  | ❌          | ✅ (LangGraph) |
+
+---
+
+### Challenges Faced
+
+- Dependency conflicts during deployment (Python version compatibility)  
+- LangGraph workflow errors (dead-end nodes, incorrect edges)  
+- Streamlit Cloud limitations for heavy libraries  
+- Managing API keys securely (Groq API)  
+
+---
+
+### Learnings
+
+- Real-world AI systems require **orchestration, not just models**  
+- LLMs enhance explainability but need structured pipelines  
+- RAG improves reliability over pure LLM responses  
+- Deployment is often more complex than development  
 
 ---
