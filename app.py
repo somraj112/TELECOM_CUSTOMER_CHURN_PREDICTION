@@ -79,7 +79,8 @@ vectordb = Chroma.from_documents(docs, embedding)
 
 def retrieve_strategies(query):
     results = vectordb.similarity_search(query, k=3)
-    return [doc.page_content for doc in results]
+    unique = list(set([doc.page_content for doc in results]))
+    return unique
 
 # LANGGRAPH AGENT
 from typing import TypedDict
