@@ -83,7 +83,7 @@ def retrieve_strategies(query):
 
 # LANGGRAPH AGENT
 from typing import TypedDict
-from langgraph.graph import StateGraph
+from langgraph.graph import StateGraph, END
 
 class AgentState(TypedDict):
     customer_data: dict
@@ -129,7 +129,9 @@ graph.set_entry_point("predict")
 
 graph.add_edge("predict", "reason")
 graph.add_edge("reason", "retrieve")
-graph.add_edge("retrieve", "report")
+graph.add_edge("retrieve", "generate_report")
+
+graph.add_edge("generate_report", END)
 
 app = graph.compile()
 
